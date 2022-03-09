@@ -1,25 +1,53 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react';
+import {Routes,Route} from 'react-router-dom';
+import {Button} from 'react-bootstrap';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+import Navbar from './components/Navbar';
+import Login from './components/Login';
+import {Navigate, Component} from 'react-router-dom';
+import Calculadora from './components/Calculadora';
+import PrivateRoute from './components/PrivateRoute';
+
+
+const  App = () => {
+  const [name, setName] = useState();
+  const [password, setPassword] = useState();
+  const isLogged = name && password;
+
+  const fakeAuth = {
+    login(name, password, cb) {
+      setName(name);
+      setPassword(password);
+      setTimeout(cb, 100);
+    },
+    logout(cb) {
+      setName();
+      setPassword();
+      setTimeout(cb, 100);
+    },
+  };
+
+
+
+  
+  return(
+    <>
+      <Navbar/>
+      
+        
+        <Routes>
+          <Route path='/' element ={<Login/>}/>
+          <Route path='/Calculadora/' element = {<PrivateRoute component={Calculadora} logged={isLogged}/>}/>
+        </Routes>
+
+        
+        
+
+    </>
+   
+
   );
+ 
 }
 
 export default App;
